@@ -33,6 +33,7 @@ public class Lab5 {
         list.add(5);
         list.add(7);
         list.add(1);
+        list.add(30);
         list.add(-3);
         list.add(-20);
         list.print();
@@ -55,7 +56,6 @@ public class Lab5 {
         doubly_list.add(4);
         doubly_list.add(-1);
         doubly_list.print();
-        doubly_list.remove(-11);
         task2(doubly_list, stack, key);
         System.out.println("\nAfter delete key in list:");
         doubly_list.print();
@@ -69,18 +69,27 @@ public class Lab5 {
         Node currentNode = list.getHead();
         if (list.contains(key)) {
             Node deleteNode = list.getNode(key);
-            Node previousNode = null;
-            //list.remove(key);
-            while (currentNode.next.next != deleteNode) {
-                previousNode = currentNode;
-                currentNode = currentNode.next;
+            if (currentNode.next == deleteNode) {
+                while (currentNode.next != null)
+                    currentNode = currentNode.next;
+                currentNode.next = list.getHead();
+                currentNode.next.next = null;
+                list.setHead(deleteNode.next);
             }
-            previousNode = currentNode.next;
-            currentNode.next = deleteNode.next;  // сохранили линк после удаления ноди
-            while (currentNode.next != null)
-                currentNode = currentNode.next;
-            currentNode.next = previousNode;  // попередню в кінець заміна
-            currentNode.next.next = null;
+            else if (deleteNode != currentNode && deleteNode.next != null) { // node not first and not last
+                Node previousNode = null;
+                while (currentNode.next.next != deleteNode) {
+                    previousNode = currentNode;
+                    currentNode = currentNode.next;
+                }
+                previousNode = currentNode.next;
+                currentNode.next = deleteNode.next;  // сохранили линк после удаления ноди
+                while (currentNode.next != null)
+                    currentNode = currentNode.next;
+                currentNode.next = previousNode;  // попередню в кінець заміна
+                currentNode.next.next = null;
+            }
+            list.remove(key);
         }
         Node firstNode = list.getHead();
         while (firstNode != null) {
@@ -103,8 +112,9 @@ public class Lab5 {
         double average = 0;
         int size = stack.getSize();
         while (!stack.isEmpty()) {
-            int temp = stack.pop();
-            average += temp;
+            Object temp = stack.pop();
+            if (temp instanceof Integer)
+                average += (int) temp;
             System.out.print(temp + " ");
         }
         return  average / size;

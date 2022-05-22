@@ -17,16 +17,16 @@ public class LinkedList {
     }
 
     public static class Node {
-        public int data;
+        public Object data;
         public Node next;
 
-        public Node(int data) {
+        public Node(Object data) {
             this.data = data;
             next = null;
         }
     }
 
-    public void add(int data){
+    public void add(Object data){
         Node newNode = new Node(data);
         Node currentNode = head;
 
@@ -40,7 +40,7 @@ public class LinkedList {
         size++;
     }
 
-    public void addFirst(int data){
+    public void addFirst(Object data){
         Node newNode = new Node(data);
         newNode.next = head;
         head = newNode;
@@ -67,7 +67,7 @@ public class LinkedList {
         }
     }
 
-    public void remove(int data) {
+    public void remove(Object data) {
         Node currentNode = head;
         Node previous = null;
 
@@ -86,7 +86,7 @@ public class LinkedList {
     }
 
     public void print() {
-        if (size != 0) {
+        if (!isEmpty()) {
             Node currentNode = head;
             while (currentNode != null) {
                 System.out.print(currentNode.data + " ");
@@ -108,7 +108,8 @@ public class LinkedList {
         head = null;
         size = 0;
     }
-    public boolean contains(int key){
+
+    public boolean contains(Object key){
         Node currentNode = head;
         while (currentNode != null) {
             if (currentNode.data == key)   return true;
@@ -117,7 +118,7 @@ public class LinkedList {
         return false;
     }
 
-    public Node getNode(int data) {
+    public Node getNode(Object data) {
         Node currentNode = head;
         while (currentNode != null) {
             if (currentNode.data == data)       return currentNode;
@@ -126,7 +127,7 @@ public class LinkedList {
         return null;
     }
 
-    public int get(int index) {
+    public Object get(int index) {
         if (0 <= index && index <= size-1) {
             Node currentNode = head;
             int i=0;

@@ -1,17 +1,17 @@
 package MyLibrary;
 
 public class Stack {
-    private final int[] arr; // save elements of stack
+    private final Object[] arr; // save elements of stack
     private int top; // top of stack
     private final int size; //total capacity of stack
 
     public Stack(int size) { // initialize array
-        arr = new int[size];
+        arr = new Object[size];
         this.size = size;
         top = -1;
     }
 
-    public void push(int data) {
+    public void push(Object data) {
         if (isFull()){
             System.out.println("Stack overFlow");
             System.exit(0);
@@ -19,7 +19,7 @@ public class Stack {
         arr[++top] = data;
     }
 
-    public int pop(){
+    public Object pop(){
         if (isEmpty()) {
             System.out.println("Stack is Empty");
             System.exit(0);
@@ -39,13 +39,22 @@ public class Stack {
         return top + 1;
     }
 
-    public int getTop() {
+    public Object getTop() {
         return (!isEmpty() ? arr[top] : -1);
     }
 
+    public int getIndexTop() {return top;}
+
     public void printStack() {
-        while (!isEmpty())
-            System.out.print(pop() + " ");
+        int temp = top;
+        while (temp != -1) System.out.print(arr[temp--] + " ");
+        System.out.println();
+    }
+
+    public Stack reverse() {
+        Stack newStack = new Stack(size);
+        while (!isEmpty())  newStack.push(pop());
+        return newStack;
     }
 
     public void clear() {

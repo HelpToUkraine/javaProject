@@ -13,16 +13,16 @@ public class DoubleLinkedList {
     }
 
     public static class Node {
-        public int data;
+        public Object data;
         public Node next;
         public Node prev;
 
-        public Node(int data) {
+        public Node(Object data) {
             this.data = data;
         }
     }
 
-        public void add(int data) {
+    public void add(Object data) {
             Node newNode = new Node(data);
             Node currentNode = head;
             if (head == null) {
@@ -37,9 +37,9 @@ public class DoubleLinkedList {
                 tail.next = null;
             }
             size++;
-        }
+    }
 
-        public void remove(int key) {
+    public void remove(Object key) {
             if (head.data == key) {
                 head = head.next;
                 head.prev = null;
@@ -57,27 +57,27 @@ public class DoubleLinkedList {
                 }
             }
             size--;
-        }
+    }
 
-        public boolean contains(int key) {
+    public boolean contains(Object key) {
             Node currentNode = head;
             while (currentNode != null) {
                 if (currentNode.data == key)    return true;
                 currentNode = currentNode.next;
             }
             return false;
-        }
+    }
 
-        public Node getNode(int key) {
+    public Node getNode(Object key) {
             Node currentNode = head;
             while (currentNode != null) {
                 if (currentNode.data == key)    return currentNode;
                 currentNode = currentNode.next;
             }
             return null;
-        }
+    }
 
-        public void print() {
+    public void print() {
             if (size != 0) {
                 Node currentNode = head;
                 while (currentNode != null) {
@@ -85,7 +85,7 @@ public class DoubleLinkedList {
                     currentNode = currentNode.next;
                 }
             }
-        }
+    }
 
 }
 
