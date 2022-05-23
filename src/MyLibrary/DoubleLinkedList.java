@@ -40,24 +40,27 @@ public class DoubleLinkedList {
     }
 
     public void remove(Object key) {
-        Node currentNode = head;
-        while(currentNode.data != key){
-            currentNode = currentNode.next;
-            if(currentNode == null)     return;
-        }
-        if(currentNode == head){
-            head.next.prev = null;
-            head = head.next;
-        }
-        else
-            currentNode.prev.next = currentNode.next;
-        if(currentNode == tail){
-            tail.prev.next = null;
-            tail = tail.prev;
-        }
-        else
-            currentNode.next.prev = currentNode.prev;
-        size--;
+            if (head.data == key) {
+                head = head.next;
+                head.prev = null;
+            }
+            else {
+                Node currentNode = head;
+                Node previousNode = null;
+                while (currentNode != null) {
+                    if (currentNode.data == key) {
+                        if (currentNode.next == null)   {
+                            currentNode.prev.next = null;
+                            break;
+                        }
+                        previousNode.next = currentNode.next;
+                        currentNode.next.prev = previousNode;
+                    }
+                    previousNode = currentNode;
+                    currentNode = currentNode.next;
+                }
+            }
+            size--;
     }
 
     public boolean contains(Object key) {
