@@ -43,14 +43,14 @@ public class DoubleLinkedList {
         Node currentNode = head;
         while(currentNode.data != key){
             currentNode = currentNode.next;
-
             if(currentNode == null)     return;
         }
         if(currentNode == head){
             head.next.prev = null;
             head = head.next;
         }
-        else{currentNode.prev.next = currentNode.next;}
+        else
+            currentNode.prev.next = currentNode.next;
         if(currentNode == tail){
             tail.prev.next = null;
             tail = tail.prev;
