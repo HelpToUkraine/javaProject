@@ -1,11 +1,10 @@
 package Lab2_PSA;
 
 import MyLibrary.Stack;
-//import java.util.Stack;
 
 public class PZ_5 {
     public static void main(String[] args) {
-        Stack stack = new Stack(11);
+        Stack stack = new Stack(10);
 
         System.out.println("Task6: зробити “дно” стека вершиною, а вершину – “дном");
         initialize(stack);
@@ -19,7 +18,7 @@ public class PZ_5 {
     }
 
     public static void initialize(Stack stack) {
-        for (int i = 1; i <= 11 ; i++)
+        for (int i = 1; i <= 10 ; i++)
             stack.push(i);
         stack.printStack();
     }
@@ -29,7 +28,7 @@ public class PZ_5 {
     }
 
     public static void task12(Stack stack) {
-        Stack tempStack = new Stack(10);
+        Stack tempStack = new Stack(stack.getSize());
         int i = 0;
         while (!stack.isEmpty()) {
             if (i % 2 == 0)     tempStack.push(stack.pop());

@@ -13,7 +13,7 @@ public class Stack {
 
     public void push(Object data) {
         if (isFull()){
-            System.out.println("Stack overFlow");
+            System.out.println("Error: Stack overFlow");
             System.exit(0);
         }
         arr[++top] = data;
@@ -21,7 +21,7 @@ public class Stack {
 
     public Object pop(){
         if (isEmpty()) {
-            System.out.println("Stack is Empty");
+            System.out.println("Error: Stack is Empty");
             System.exit(0);
         }
         return arr[top--];

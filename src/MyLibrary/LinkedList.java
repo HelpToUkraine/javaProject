@@ -1,3 +1,6 @@
+/*
+update add tail save in list
+*/
 package MyLibrary;
 
 public class LinkedList {
