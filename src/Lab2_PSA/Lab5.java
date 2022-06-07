@@ -7,7 +7,6 @@ package Lab2_PSA;
 
 import MyLibrary.*;
 import MyLibrary.LinkedList.Node;
-
 import java.util.Scanner;
 
 public class Lab5 {
@@ -18,14 +17,13 @@ public class Lab5 {
 
         int key = 0;
         Scanner input = new Scanner(System.in);
-        System.out.print("Input key for founding in list: ");
+        System.out.print("Введіть ключ для пошуку в списку: ");
         try {
             key = input.nextInt();
         }catch (Exception e){
             System.out.println("Error input");
             System.exit(0);
         }
-        System.out.println("\nSingle LinkedList: ");
         list.add(4);
         list.add(1);
         list.add(-6);
@@ -39,30 +37,29 @@ public class Lab5 {
         list.print();
 
         task1(list, stack, key);
-        System.out.println("After delete key in list and reverse previous and next elements:");
+        System.out.println("Після видалення ключа та обміну попереднього та наступніх елементів");
         list.print();
-        System.out.println("Stack of elements SingleList: ");
-        double average = individual_task(stack);
-        System.out.printf("\nAverage sum elements in Stack: %.2f", average);
+        System.out.println("Стек з елементів LinkedList: ");
+        stack.printStack();
+        System.out.printf("Середнє арифметичне елементів у Stack: %.2f", individual_task(stack));
 
-        System.out.println("\n\nDoubly LinkedList");
+        System.out.println("\n\nDoublyLinkedList");
         doubly_list.add(10);
         doubly_list.add(15);
+        doubly_list.add(-1);
         doubly_list.add(-6);
         doubly_list.add(-11);
         doubly_list.add(30);
         doubly_list.add(37);
         doubly_list.add(30);
         doubly_list.add(4);
-        doubly_list.add(-1);
         doubly_list.print();
         task2(doubly_list, stack, key);
-        System.out.println("\nAfter delete key in list:");
+        System.out.println("\nПісля видалення ключа: " + key);
         doubly_list.print();
-        System.out.println("\nStack of the elements DoublyList");
-        double average2 = individual_task(stack);
-        System.out.printf("\nAverage sum of elements in Stack: %.2f", average2);
-
+        System.out.println("\nСтек з елементів DoublyLinkedList");
+        stack.printStack();
+        System.out.printf("Середнє арифметичне елементів у Stack: %.2f", individual_task(stack));
     }
 
     public static void task1(LinkedList list, Stack stack, int key) {
@@ -115,7 +112,6 @@ public class Lab5 {
             Object temp = stack.pop();
             if (temp instanceof Integer)
                 average += (int) temp;
-            System.out.print(temp + " ");
         }
         return  average / size;
     }

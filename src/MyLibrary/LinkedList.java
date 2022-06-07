@@ -5,10 +5,12 @@ package MyLibrary;
 
 public class LinkedList {
     private Node head;
+    private Node tail;
     private int size;
 
     public LinkedList() {
         head = null;
+        tail = null;
     }
 
     public Node getHead() {
@@ -17,6 +19,14 @@ public class LinkedList {
 
     public void setHead(Node head) {
         this.head = head;
+    }
+
+    public Node getTail() {
+        return tail;
+    }
+
+    public void setTail(Node tail) {
+        this.tail = tail;
     }
 
     public static class Node {
@@ -31,20 +41,24 @@ public class LinkedList {
 
     public void add(Object data){
         Node newNode = new Node(data);
-        Node currentNode = head;
+        //Node currentNode = head;
 
         if (head == null)
-            head = newNode;
-        else {
-             while (currentNode.next != null)
-                 currentNode = currentNode.next;
-             currentNode.next = newNode;
-        }
+            head = tail = newNode;
+        else
+            tail.next = tail = newNode;
+//            {
+//                 while (currentNode.next != null)
+//                     currentNode = currentNode.next;
+//                 currentNode.next = tail = newNode;
+//            }
         size++;
     }
 
     public void addFirst(Object data){
         Node newNode = new Node(data);
+        if (head == null)
+            tail = newNode;
         newNode.next = head;
         head = newNode;
         size++;
@@ -108,7 +122,7 @@ public class LinkedList {
     }
 
     public void clear() {
-        head = null;
+        head = tail = null;
         size = 0;
     }
 
