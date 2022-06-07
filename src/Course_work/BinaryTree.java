@@ -1,7 +1,5 @@
 package Course_work;
 
-import java.util.Objects;
-
 public class BinaryTree {
     private Node root;
 
@@ -40,9 +38,8 @@ public class BinaryTree {
         /* елемент є в дереві */
         return current;
     }
-    /*
-    cycling finding value by key
-    */
+
+    /* cyclic find of value by key */
     public String getValue(String key) {
         Node temp = root;
         while (temp != null) {
@@ -54,9 +51,7 @@ public class BinaryTree {
         return null;
     }
 
-    /*
-    recursive finding value by key
-    */
+    /* recursive find of value by key */
     public String getValueRecursive(String key) {
         return getValueRecursive(root, key);
     }
@@ -77,18 +72,13 @@ public class BinaryTree {
         recursivePrint(root);
     }
 
-    /*
-    left SubTree -> root -> right SubTree (DFS)
-    */
+    /* left subTree -> root -> right subTree (DFS) */
     public void recursivePrint(Node current) {
         if (current != null) {
             recursivePrint(current.leftChild);
             System.out.println(current.key + " -> " + current.value);
             recursivePrint(current.rightChild);
-
         }
     }
-
-
 
 }
