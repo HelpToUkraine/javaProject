@@ -60,8 +60,8 @@ public class QueueList {
         size++;
     }
 
-    public Object remove() {
-        Object temp = peek();
+    public Node remove() {
+        Node temp = peek();
         if (isEmpty()) {
             System.err.println("Error: Queue is empty");
             System.exit(0);
@@ -99,8 +99,8 @@ public class QueueList {
         return temp != null ? temp : -1;
     }
 
-    public Object peek() {
-        return !isEmpty() ? head.value : null;
+    public Node peek() {
+        return !isEmpty() ? head : null;
     }
 
     public boolean isEmpty() {
@@ -111,7 +111,7 @@ public class QueueList {
         if (!isEmpty()) {
             Node currentNode = head;
             while (currentNode != null) {
-                System.out.print(currentNode.value + " ");
+                System.out.println(currentNode.key + " -> " + currentNode.value);
                 currentNode = currentNode.next;
             }
             System.out.println();

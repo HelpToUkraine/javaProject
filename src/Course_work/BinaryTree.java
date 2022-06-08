@@ -10,10 +10,12 @@ public class BinaryTree {
     public static class Node {
         public String key;
         public String value;
+        public int id;
         public Node leftChild;
         public Node rightChild;
 
-        public Node(String key, String value) {
+        public Node(String key, String value, int id) {
+            this.id = id;
             this.key = key;
             this.value = value;
             leftChild = null;
@@ -21,20 +23,20 @@ public class BinaryTree {
         }
     }
 
-    public void put(String key, String value) {
-        root = put(root, key, value);
+    public void put(String key, String value, int id) {
+        root = put(root, key, value, id);
     }
 
-    public Node put(Node current, String key, String value) {
+    public Node put(Node current, String key, String value, int id) {
         /* якщо пуста Node -> знайдено місце вставки */
         if (current == null)
-            return new Node(key, value);
+            return new Node(key, value, id);
         /* порівнюємо за алфавітом String value та шукаємо місце вставки нової Node */
         int cmp = key.compareToIgnoreCase(current.key);
         if (cmp < 0)
-            current.leftChild = put(current.leftChild, key, value);
+            current.leftChild = put(current.leftChild, key, value, id);
         else if (cmp > 0)
-            current.rightChild = put(current.rightChild, key, value);
+            current.rightChild = put(current.rightChild, key, value, id);
         /* елемент є в дереві */
         return current;
     }
@@ -76,7 +78,7 @@ public class BinaryTree {
     public void recursivePrint(Node current) {
         if (current != null) {
             recursivePrint(current.leftChild);
-            System.out.println(current.key + " -> " + current.value);
+            System.out.println(current.id + " -> " + current.key + " -> " + current.value);
             recursivePrint(current.rightChild);
         }
     }
