@@ -2,4 +2,3 @@ Client1 -> Apple
 Client2 -> Rozetka
 Client3 -> Fora
 Client4 -> Comfy
-

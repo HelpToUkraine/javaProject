@@ -1,43 +1,35 @@
 package Course_work;
 
-import MyLibrary.LinkedList;
-import MyLibrary.Stack;
 import MyLibrary.QueueList;
-
-import java.io.FileNotFoundException;
-import java.util.Scanner;
-import java.io.File;
-import java.io.FileReader;
+import org.jetbrains.annotations.TestOnly;
 
 public class Main {
     public static void main(String[] args) throws Exception {
         BinaryTree shopMap = new BinaryTree();
         BinaryTree clientMap = new BinaryTree();
+        QueueList deliveryQueue = new QueueList();      // Черга клієнтів
+        Graph graph = new Graph();
+        InputData inputData = new InputData();          // зчитування даних з файлів
 
-        readData("D:\\Code\\javaProject\\src\\Course_work\\Config files\\Shops.txt", shopMap);
+        inputData.readFiles(shopMap, clientMap, deliveryQueue);
         shopMap.print();
+        System.out.println();
+        clientMap.print();
+        System.out.println();
+        deliveryQueue.printQueue();
+
+
+        /* test get value by key */
 
         System.out.println(shopMap.getValue("Atb"));
         System.out.println(shopMap.getValueRecursive("Comfy"));
-
         System.out.println();
-        readData("D:\\Code\\javaProject\\src\\Course_work\\Config files\\Clients.txt", clientMap);
-        clientMap.print();
-        System.out.println(clientMap.getValue("client1"));
-        System.out.println(clientMap.getValueRecursive("client4"));
+        System.out.println(clientMap.getValue("Abram #5"));
+        System.out.println(clientMap.getValueRecursive("Max #3"));
 
     }
 
-    public static  void readData(String path, BinaryTree tree) throws FileNotFoundException {
-        File file = new File(path);
-        Scanner scanner = new Scanner(file);
-        String line;
-        while (scanner.hasNextLine()) {
-            line = scanner.nextLine();
-            String[] array = line.split(" -> ");
-            tree.put(array[0], array[1]);
-        }
-        scanner.close();
-
-    }
+//    public static BinaryTree getShopMap(){
+//        return shopMap;
+//    }
 }

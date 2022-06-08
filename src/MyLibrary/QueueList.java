@@ -10,11 +10,18 @@ public class QueueList {
     }
 
     public static class Node {
+        public Object key;
         public Object value;
         public Node next;
 
         Node(Object value) {
             this.value = value;
+            next = null;
+        }
+
+        Node(Object key, Object value) {
+            this.value = value;
+            this.key = key;
             next = null;
         }
     }
@@ -37,6 +44,15 @@ public class QueueList {
 
     public void add(Object value) {
         Node newNode = new Node(value);
+        if (head == null)
+            head = tail = newNode;
+        else
+            tail.next = tail = newNode;
+        size++;
+    }
+
+    public void add(Object key, Object value) {
+        Node newNode = new Node(key, value);
         if (head == null)
             head = tail = newNode;
         else
