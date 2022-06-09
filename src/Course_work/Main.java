@@ -19,37 +19,33 @@ public class Main {
         Output info Tree, Graph, Queue
          */
 
-        System.out.println("Shop -> address\n");
-        shopMap.print();
-
-        System.out.println("\nClient -> address\n");
-        clientMap.print();
-
-        System.out.println("\nQueue client's to delivery\n");
-        deliveryQueue.printQueue();
-
+//        System.out.println("Shop -> address\n");
+//        shopMap.print();
+//
+//        System.out.println("\nClient -> address\n");
+//        clientMap.print();
+//
+//        System.out.println("\nQueue client's to delivery\n");
+//        deliveryQueue.printQueue();
+//
 //        System.out.println("Adjacency Matrix");
 //        graph.printMatrix();
-
 
 
         /* заповнення списка вершин графа */
         clientMap.traverseInOrder(graph);
         shopMap.traverseInOrder(graph);
 
-        System.out.println("Вершини графа: ");
-        graph.vertexList.print();
-
-        System.out.println("Інформація про вершину: ");
-        graph.displayVertex(2);
-        graph.displayVertex(0);
-        graph.displayVertex(6);
-        graph.displayVertex(18);
-        graph.displayVertex(-1);
+//
+//        System.out.println("Вершини графа: ");
+//        graph.vertexList.print();
 
 
+//        System.out.println("Інформація про вершину: ");
+//        graph.displayVertex(13);
+//        graph.displayVertex(1);
 
-         /* Зчитує чергу замволень клієнтів. Після кожної ітерації видаляється клієнт з замовлення */
+        /* Зчитує чергу замволень клієнтів. Після кожної ітерації видаляється клієнт з замовлення */
         while (true) {
             System.out.print("\nОбробити доставку наступного клієнта <1> | Закрити програму <Any Key>: ");
             String var = input.nextLine();
@@ -77,14 +73,19 @@ public class Main {
     }
 
     public static void nextDelivery(Graph graph, BinaryTree shopMap, BinaryTree clientMap, QueueList deliveryQueue) {
-        if (deliveryQueue.getHead() != null) {
-            QueueList.Node head = deliveryQueue.remove();
+        if (deliveryQueue.getHead() != null) {                      // "Max -> Apple"
+            QueueList.Node head = deliveryQueue.remove();           // дістається клієнт і видаляється
             String clientAddress = clientMap.getValue((String) head.key);
             String shopAddress = shopMap.getValue((String) head.value);
-            graph.bfs(shopAddress, clientAddress);
-            graph.dfs(shopAddress, clientAddress);
-            graph.dijkstra(shopAddress, clientAddress);
-            System.out.printf("Client '%s'\taddress: %s\nShop '%s'\taddress: %s\n",  head.key, clientAddress, head.value, shopAddress);
+
+//            System.out.printf("DFS:\nClient: %s -> Shop: %s\nClientAddress: %s -> ShopAddress: %s\n\n",
+//                    head.key, head.value, clientAddress, shopAddress);
+            System.out.printf("DFS:\nClient: '%s'\taddress: %s\nShop: '%s'\taddress: %s\n\n",
+                    head.key, clientAddress, head.value, shopAddress);
+            graph.dfs(clientAddress, shopAddress);
+            graph.bfs(clientAddress, shopAddress);
+//          graph.dijkstra(clientAddress, shopAddress);
+
         } else
             System.out.println("All orders are delivered");
     }
