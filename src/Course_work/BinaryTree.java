@@ -1,23 +1,25 @@
 package Course_work;
 
 public class BinaryTree {
-    private Node root;
+    private NodeTree root;
 
     public BinaryTree() {
         root = null;
     }
 
-    public static class Node {
+    public static class NodeTree {
         public String key;
         public String value;
         public int id;
-        public Node leftChild;
-        public Node rightChild;
+        public boolean isVisited;
+        public NodeTree leftChild;
+        public NodeTree rightChild;
 
-        public Node(String key, String value, int id) {
+        public NodeTree(String key, String value, int id) {
             this.id = id;
             this.key = key;
             this.value = value;
+            isVisited = false;
             leftChild = null;
             rightChild = null;
         }
@@ -27,11 +29,11 @@ public class BinaryTree {
         root = put(root, key, value, id);
     }
 
-    public Node put(Node current, String key, String value, int id) {
-        /* якщо пуста Node -> знайдено місце вставки */
+    public NodeTree put(NodeTree current, String key, String value, int id) {
+        /* якщо пуста NodeTree -> знайдено місце вставки */
         if (current == null)
-            return new Node(key, value, id);
-        /* порівнюємо за алфавітом String value та шукаємо місце вставки нової Node */
+            return new NodeTree(key, value, id);
+        /* порівнюємо за алфавітом String value та шукаємо місце вставки нової NodeTree */
         int cmp = key.compareToIgnoreCase(current.key);
         if (cmp < 0)
             current.leftChild = put(current.leftChild, key, value, id);
@@ -43,7 +45,7 @@ public class BinaryTree {
 
     /* cyclic find of value by key */
     public String getValue(String key) {
-        Node temp = root;
+        NodeTree temp = root;
         while (temp != null) {
             int cmp = key.compareToIgnoreCase(temp.key);
             if (cmp < 0)        temp = temp.leftChild;
@@ -58,7 +60,7 @@ public class BinaryTree {
         return getValueRecursive(root, key);
     }
 
-    public String getValueRecursive(Node current, String key) {
+    public String getValueRecursive(NodeTree current, String key) {
         if (current == null)
             return null;
         int cmp = key.compareToIgnoreCase(current.key);
@@ -74,10 +76,10 @@ public class BinaryTree {
         traverseInOrder(graph, root);
     }
 
-    public void traverseInOrder(Graph graph, Node current) {
+    public void traverseInOrder(Graph graph, NodeTree current) {
         if (current != null) {
             traverseInOrder(graph, current.leftChild);
-            graph.addVertex(current.value, current.id);
+            graph.addVertex(current);
             traverseInOrder(graph, current.rightChild);
         }
     }
@@ -87,7 +89,7 @@ public class BinaryTree {
     }
 
     /* left subTree -> root -> right subTree (DFS) */
-    public void recursivePrint(Node current) {
+    public void recursivePrint(NodeTree current) {
         if (current != null) {
             recursivePrint(current.leftChild);
             System.out.println(current.id + " -> " + current.key + " -> " + current.value);
