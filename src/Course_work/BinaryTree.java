@@ -70,6 +70,18 @@ public class BinaryTree {
                 : getValueRecursive(current.rightChild, key);
     }
 
+    public void traverseInOrder(Graph graph) {
+        traverseInOrder(graph, root);
+    }
+
+    public void traverseInOrder(Graph graph, Node current) {
+        if (current != null) {
+            traverseInOrder(graph, current.leftChild);
+            graph.addVertex(current.value, current.id);
+            traverseInOrder(graph, current.rightChild);
+        }
+    }
+
     public void print() {
         recursivePrint(root);
     }
