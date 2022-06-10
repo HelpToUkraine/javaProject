@@ -5,9 +5,12 @@ import Course_work.BinaryTree.NodeTree;
 import MyLibrary.Stack;
 import MyLibrary.QueueList;
 
+import MyLibrary.JenericLinkedList;
+
 public class Graph {
     public int[][] adjMatrix;       // матрица смежности
     public int currentVertex;       // текущее количество вершин
+    int countOfVertexInTree;        // количество рассмотренных вершин в дереве
     LinkedList vertexList;          // массив вершин
     Stack stack;
     QueueList queue;
@@ -81,7 +84,7 @@ public class Graph {
         resetVisitedVertex();
     }           // client -> shop
 
-    public void bfs(String clientAddress, String shopAddress) {
+    public void bfs(String clientAddress, String shopAddress) {               // client -> shop
          /*
         if  vertexClient and vertexShop != null  добавить проверку.
          */
@@ -110,17 +113,55 @@ public class Graph {
         resetVisitedVertex();
         queue.clear();
 
-    }           // client -> shop
+    }
 
     public void dijkstra(String clientAddress, String shopAddress) {        // shop -> client
         NodeTree vertexClient = vertexList.getNodeByValue(clientAddress);
         NodeTree vertexShop = vertexList.getNodeByValue(shopAddress);
-        vertexShop.isVisited = true;                                      // берётся вершина клиента
+        //vertexShop.isVisited = true;                                      // берётся вершина клиента
         int clientId = vertexClient.id;
         int shopId = vertexShop.id;
+
+        int v = adjMatrix.length;
+        boolean[] visited = new boolean[v];
+        int[] distance = new int[v];
+        //visited[shopId] = true;
+        distance[shopId] = 0;                           // відстань від шопа в шоп = 0
+
+        for (int i = 0; i < v; i++)
+            if (i != shopId)
+                distance[i] = Integer.MAX_VALUE;
+
+        for (int i = 0; i < v - 1; i++) {
+            // Знайти вершину з Min Distance
+            int minVertex = findMinVertex(distance, visited);
+            visited[minVertex] = true;
+            // досліджуємо сусідів
+            for (int j = 0; j < v; j++) {
+                if (adjMatrix[minVertex][j] != 0 && !visited[j] && distance[minVertex] != Integer.MAX_VALUE) {
+                    int newDist = distance[minVertex] + adjMatrix[minVertex][j];
+                    if (newDist < distance[j])
+                        distance[j] = newDist;
+                }
+
+            }
+        }
+        for (int i = 0; i < v; i++) {
+            System.out.println(i + " " + distance[i]);
+            
+        }
     }
 
-    private int getUnvisitedVertex(int v) {
+    public int findMinVertex(int[] distance, boolean[] visited) {
+        int minVertex = -1;
+        for (int i = 0; i < distance.length; i++)
+            if (!visited[i] && (minVertex == -1 || distance[i] < distance[minVertex]))
+                minVertex = i;
+        return minVertex;
+
+    }
+
+    public int getUnvisitedVertex(int v) {
         for (int j = 0; j < currentVertex; j++) {
             Node head = vertexList.getHead();
             NodeTree vertex = null;
