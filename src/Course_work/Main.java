@@ -106,7 +106,9 @@ public class Main {
 
             System.out.println("\nBFS: --------------------------------");
             graph.bfs(clientAddress, shopAddress);
-//          graph.dijkstra(clientAddress, shopAddress);
+
+            System.out.println("\nDijkstra: --------------------------------");
+            graph.dijkstra(clientAddress, shopAddress);
 
             /*
             Спросить хотите ли разорвать вершину и пересчитать пути?
