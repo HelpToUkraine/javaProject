@@ -1,5 +1,3 @@
-
-
 package Course_work;
 
 import Course_work.LinkedList.Node;
@@ -11,12 +9,14 @@ public class Graph {
     public int[][] adjMatrix;       // матрица смежности
     public int currentVertex;       // текущее количество вершин
     LinkedList vertexList;          // массив вершин
-    Stack stack = new Stack(100);
-    QueueList queueList;
+    Stack stack;
+    QueueList queue;
 
     public Graph(int maxVertex) {
         vertexList = new LinkedList();
         adjMatrix = new int[maxVertex][maxVertex];
+        stack = new Stack(maxVertex*2);
+        queue = new QueueList();
         currentVertex = 0;
     }
 
@@ -49,12 +49,15 @@ public class Graph {
     }
 
     public void dfs(String clientAddress, String shopAddress) {             // обход в глубину
-        NodeTree vertexClient = vertexList.getNodeByValue(clientAddress);
-        NodeTree vertexShop = vertexList.getNodeByValue(shopAddress);
-        vertexClient.isVisited = true;                                      // берётся вершина клиента
+        NodeTree vertexClient = vertexList.getNodeByValue(clientAddress);   //  вершина клиента по адресу
+        NodeTree vertexShop = vertexList.getNodeByValue(shopAddress);       //  вершина магазина по адресу
+        /*
+        if  vertexClient and vertexShop != null  добавить проверку.
+         */
         int clientId = vertexClient.id;
         int shopId = vertexShop.id;
 
+        vertexClient.isVisited = true;
         displayVertex(clientId);
         stack.push(clientId);
 
@@ -63,7 +66,7 @@ public class Graph {
             if (v == -1) {                                                  // если не пройденных смежных вершин нет
                 stack.pop();                                                // элемент извлекается из стека
             }
-            else if (v == shopId) {                         // STOP BFS if you find shopID
+            else if (v == shopId) {                                      // STOP BFS if you find path Client -> Shop
                 displayVertex(v);
                 break;
             }
@@ -74,15 +77,47 @@ public class Graph {
                 stack.push(v);                                              // элемент попадает на вершину стека
             }
         }
+        stack.clear();
         resetVisitedVertex();
-    }
+    }           // client -> shop
 
-    public void resetVisitedVertex() {
-        Node head = vertexList.getHead();                               // сброс флагов
-        while (head != null) {
-            head.vertex.isVisited = false;
-            head = head.next;
+    public void bfs(String clientAddress, String shopAddress) {
+         /*
+        if  vertexClient and vertexShop != null  добавить проверку.
+         */
+        NodeTree vertexClient = vertexList.getNodeByValue(clientAddress);
+        NodeTree vertexShop = vertexList.getNodeByValue(shopAddress);
+        vertexClient.isVisited = true;                                      // берётся вершина клиента
+        int clientId = vertexClient.id;
+        int shopId = vertexShop.id;
+
+        displayVertex(clientId);
+        queue.add(clientId);
+        int unvisitedId = -1;
+
+        while (!queue.isEmpty()) {
+            if (shopId == unvisitedId)       break;
+            int vertexId = (Integer) queue.poll();
+
+            while ((unvisitedId = getUnvisitedVertex(vertexId)) != -1) {
+                NodeTree vertex = vertexList.getNodeById(unvisitedId);
+                vertex.isVisited = true;
+                displayVertex(unvisitedId);
+                if (unvisitedId == shopId)  break;
+                queue.add(unvisitedId);
+            }
         }
+        resetVisitedVertex();
+        queue.clear();
+
+    }           // client -> shop
+
+    public void dijkstra(String clientAddress, String shopAddress) {        // shop -> client
+        NodeTree vertexClient = vertexList.getNodeByValue(clientAddress);
+        NodeTree vertexShop = vertexList.getNodeByValue(shopAddress);
+        vertexShop.isVisited = true;                                      // берётся вершина клиента
+        int clientId = vertexClient.id;
+        int shopId = vertexShop.id;
     }
 
     private int getUnvisitedVertex(int v) {
@@ -102,15 +137,24 @@ public class Graph {
         return -1;
     }
 
-
-    public void bfs(String clientAddress, String shopAddress) {
-
+    public void resetVisitedVertex() {                       // сброс флагов посещенных вершин
+        Node head = vertexList.getHead();
+        while (head != null) {
+            head.vertex.isVisited = false;
+            head = head.next;
+        }
     }
 
-    public void dijkstra(String clientAddress, String shopAddress) {
-
+    public void removeVertex(int vertexId) {
+        /*
+        перевірка vertexList.getNodeById(vertexId) != null
+         */
+        vertexList.remove(vertexList.getNodeById(vertexId));                         // видаляє вершину зі списка вершин
+        for (int i = 0; i < adjMatrix.length; i++)
+            for (int j = 0; j < adjMatrix[0].length; j++)
+                if ((i == vertexId || j == vertexId) && adjMatrix[i][j] != 0)       // якщо з вершини чи до вершини є шлях, скидаємо в 0.
+                    adjMatrix[i][j] = 0;
     }
-
 
 
 //    public static class Vertex {            // адреса

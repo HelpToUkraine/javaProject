@@ -32,7 +32,7 @@ public class Main {
 //        graph.printMatrix();
 
 
-        /* заповнення списка вершин графа */
+        /* заповнення списка вершин графа з Binary Tree */
         clientMap.traverseInOrder(graph);
         shopMap.traverseInOrder(graph);
 
@@ -47,13 +47,30 @@ public class Main {
 
         /* Зчитує чергу замволень клієнтів. Після кожної ітерації видаляється клієнт з замовлення */
         while (true) {
-            System.out.print("\nОбробити доставку наступного клієнта <1> | Закрити програму <Any Key>: ");
+            System.out.print("""   
+                             
+                    Обробити доставку наступного клієнта: <1>
+                    Черга замовлень: <2>
+                    Вершини графа: <3>
+                    Таблиця магазинів <4>
+                    Таблиця клієнтів <5>
+                    Матриця суміжності: <6>
+                    Розірвати вершину графа: <7>
+                    Закрити програму: <Another Key>
+                    """);
             String var = input.nextLine();
             switch (var) {
                 case "1" -> nextDelivery(graph, shopMap, clientMap, deliveryQueue);
-                case "2" -> System.out.println("Kirgo Lox");
-                case "3" -> System.out.println("scam lox");
-                case "4" -> System.out.println("cho3kopai lox");
+                case "2" -> deliveryQueue.print();
+                case "3" -> graph.vertexList.print();
+                case "4" -> shopMap.print();
+                case "5" -> clientMap.print();
+                case "6" -> graph.printMatrix();
+                case "7" -> {
+                    System.out.print("Введіть номер(id) вершини для видалення: ");
+                    String delVertex = input.nextLine();
+                    graph.removeVertex(Integer.parseInt(delVertex));
+                }
                 default -> {
                     System.err.println("The program completed successfully");
                     System.exit(0);
@@ -73,18 +90,28 @@ public class Main {
     }
 
     public static void nextDelivery(Graph graph, BinaryTree shopMap, BinaryTree clientMap, QueueList deliveryQueue) {
-        if (deliveryQueue.getHead() != null) {                      // "Max -> Apple"
-            QueueList.Node head = deliveryQueue.remove();           // дістається клієнт і видаляється
-            String clientAddress = clientMap.getValue((String) head.key);
-            String shopAddress = shopMap.getValue((String) head.value);
+        if (deliveryQueue.getHead() != null) {                                   // "Max -> Apple"
+            QueueList.Node order = deliveryQueue.remove();                       // дістається клієнт і видаляється
+            String clientAddress = clientMap.getValue((String) order.key);
+            String shopAddress = shopMap.getValue((String) order.value);
 
 //            System.out.printf("DFS:\nClient: %s -> Shop: %s\nClientAddress: %s -> ShopAddress: %s\n\n",
 //                    head.key, head.value, clientAddress, shopAddress);
-            System.out.printf("DFS:\nClient: '%s'\taddress: %s\nShop: '%s'\taddress: %s\n\n",
-                    head.key, clientAddress, head.value, shopAddress);
+
+            System.out.printf("\nClient: '%s'\taddress: %s\nShop: '%s'\taddress: %s\n",
+                    order.key, clientAddress, order.value, shopAddress);
+
+            System.out.println("\nDFS: --------------------------------");
             graph.dfs(clientAddress, shopAddress);
+
+            System.out.println("\nBFS: --------------------------------");
             graph.bfs(clientAddress, shopAddress);
 //          graph.dijkstra(clientAddress, shopAddress);
+
+            /*
+            Спросить хотите ли разорвать вершину и пересчитать пути?
+            если да -> разорвать и перезапустить.
+             */
 
         } else
             System.out.println("All orders are delivered");

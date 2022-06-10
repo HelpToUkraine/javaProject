@@ -39,7 +39,7 @@ public class Stack {
         return top + 1;
     }
 
-    public Object getTop() {
+    public Object peek() {
         return (!isEmpty() ? arr[top] : -1);
     }
 
@@ -58,8 +58,9 @@ public class Stack {
     }
 
     public void clear() {
-        while (!isEmpty() )
-            arr[top--] = 0;
+        top = -1;
+//        while (!isEmpty() )
+//            arr[top--] = 0;
     }
 
 }

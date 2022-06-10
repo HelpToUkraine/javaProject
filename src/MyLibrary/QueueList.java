@@ -73,6 +73,20 @@ public class QueueList {
         return temp;
     }
 
+    public Object poll() {
+        Node temp = peek();
+        if (isEmpty()) {
+            System.err.println("Error: Queue is empty");
+            System.exit(0);
+        }
+        else {
+            head = head.next;
+            size--;
+        }
+        return temp.value;
+    }
+
+
     public void removeIndexOf(int index) {
         if (index < 0 || index >= size) {
             System.err.println("Error: Out of range Queue");
@@ -107,7 +121,12 @@ public class QueueList {
         return size == 0;
     }
 
-    public void printQueue() {
+    public void clear() {
+        head = tail = null;
+        size = 0;
+    }
+
+    public void print() {
         if (!isEmpty()) {
             Node currentNode = head;
             while (currentNode != null) {

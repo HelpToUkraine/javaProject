@@ -22,10 +22,10 @@ public class PZ_6 {
             queueList.add(i);
 
         System.out.println("Queue List:");
-        queueList.printQueue();
+        queueList.print();
         System.out.println("Після видалення елемента з індексом: " + index);
         queueList.removeIndexOf(index);
-        queueList.printQueue();
+        queueList.print();
         System.out.println("Елемент в Queue List з індексом: " + index + " -> " + queueList.get(index));
 
         for (int i = 1; i <= 5; i++)

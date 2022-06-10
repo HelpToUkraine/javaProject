@@ -1,4 +1,4 @@
-Client1 -> Apple
-Client2 -> Rozetka
-Client3 -> Fora
-Client4 -> Comfy
+Max -> Apple
+Sendi -> Rozetka
+Peter -> Fora
+Abram -> Comfy

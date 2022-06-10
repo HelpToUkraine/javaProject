@@ -11,7 +11,7 @@ public class PZ_5 {
         Stack result = task6(stack); // new reverse Stack
         result.printStack();
 
-        System.out.println("\nTask 12: Видалити кожен другий елемент стека (з голови)");
+        System.out.println("\nMain 12: Видалити кожен другий елемент стека (з голови)");
         initialize(stack);
         task12(stack);
         stack.printStack();
