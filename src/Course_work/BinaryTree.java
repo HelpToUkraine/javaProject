@@ -25,7 +25,7 @@ public class BinaryTree {
         }
     }
 
-    public void put(String key, String value, int id) {
+    public void put(String key, String value, int id) {             // sort BinaryTree by (String) 'key'
         root = put(root, key, value, id);
     }
 
@@ -33,12 +33,14 @@ public class BinaryTree {
         /* якщо пуста NodeTree -> знайдено місце вставки */
         if (current == null)
             return new NodeTree(key, value, id);
-        /* порівнюємо за алфавітом String value та шукаємо місце вставки нової NodeTree */
+
+        /* порівнюємо за алфавітом String 'key' та шукаємо місце вставки нової NodeTree */
         int cmp = key.compareToIgnoreCase(current.key);
         if (cmp < 0)
             current.leftChild = put(current.leftChild, key, value, id);
         else if (cmp > 0)
             current.rightChild = put(current.rightChild, key, value, id);
+
         /* елемент є в дереві */
         return current;
     }
@@ -63,6 +65,7 @@ public class BinaryTree {
     public String getValueRecursive(NodeTree current, String key) {
         if (current == null)
             return null;
+
         int cmp = key.compareToIgnoreCase(current.key);
         if (cmp == 0)
             return current.value;
@@ -72,10 +75,12 @@ public class BinaryTree {
                 : getValueRecursive(current.rightChild, key);
     }
 
+    /* Обхід всіх вершин BinaryTree і створення вершин Graph. */
     public void traverseInOrder(Graph graph) {
         traverseInOrder(graph, root);
     }
 
+    /* Left subTree -> Root -> Right subTree */
     public void traverseInOrder(Graph graph, NodeTree current) {
         if (current != null) {
             traverseInOrder(graph, current.leftChild);
@@ -88,11 +93,11 @@ public class BinaryTree {
         recursivePrint(root);
     }
 
-    /* left subTree -> root -> right subTree (DFS) */
+    /* Left subTree -> Root -> Right subTree */
     public void recursivePrint(NodeTree current) {
         if (current != null) {
             recursivePrint(current.leftChild);
-            System.out.println(current.id + " -> " + current.key + " -> " + current.value);
+            System.out.printf("Id: %d\tKey: %10s\t\tValue: %s\n", current.id, current.key, current.value);
             recursivePrint(current.rightChild);
         }
     }
