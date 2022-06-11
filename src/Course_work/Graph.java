@@ -115,20 +115,18 @@ public class Graph {
 
     }
 
-    public void dijkstra(String clientAddress, String shopAddress) {        // shop -> client
-        NodeTree vertexClient = vertexList.getNodeByValue(clientAddress);
-        NodeTree vertexShop = vertexList.getNodeByValue(shopAddress);
-        //vertexShop.isVisited = true;                                      // берётся вершина клиента
+    public void dijkstra(String clientAddress, String shopAddress) {            // shop -> client
+        NodeTree vertexClient = vertexList.getNodeByValue(clientAddress);       // вершина клієнта за адресою
+        NodeTree vertexShop = vertexList.getNodeByValue(shopAddress);           // вершина магазина за адресою
         int clientId = vertexClient.id;
         int shopId = vertexShop.id;
 
         int v = adjMatrix.length;
         boolean[] visited = new boolean[v];
         int[] distance = new int[v];
-        //visited[shopId] = true;
-        distance[shopId] = 0;                           // відстань від шопа в шоп = 0
+        distance[shopId] = 0;                           // відстань від shop to shop = 0
 
-        for (int i = 0; i < v; i++)
+        for (int i = 0; i < v; i++)                     // заповнення відстані від shopId -> vertex = INFINITY
             if (i != shopId)
                 distance[i] = Integer.MAX_VALUE;
 
@@ -143,13 +141,10 @@ public class Graph {
                     if (newDist < distance[j])
                         distance[j] = newDist;
                 }
-
             }
         }
-        for (int i = 0; i < v; i++) {
-            System.out.println(i + " " + distance[i]);
-            
-        }
+        System.out.printf("Min distance from Id: %d Shop: %s\tto\tId: %d Client: %s ----> %d minute\n",
+                shopId, vertexShop.key, clientId, vertexClient.key, distance[clientId]);
     }
 
     public int findMinVertex(int[] distance, boolean[] visited) {
@@ -196,6 +191,7 @@ public class Graph {
                 if ((i == vertexId || j == vertexId) && adjMatrix[i][j] != 0)       // якщо з вершини чи до вершини є шлях, скидаємо в 0.
                     adjMatrix[i][j] = 0;
     }
+
 
 
 //    public static class Vertex {            // адреса
