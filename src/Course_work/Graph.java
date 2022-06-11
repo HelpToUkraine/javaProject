@@ -44,7 +44,7 @@ public class Graph {
         Node head = vertexList.getHead();
         while (head != null) {
             if (head.vertex.id == vertex) {
-                System.out.println("Id: " + head.vertex.id + "\tKey: " + head.vertex.key + "\tValue: " + head.vertex.value);
+                System.out.printf("Id: %d\tKey: %10s\t\tValue: %s\n", head.vertex.id, head.vertex.key, head.vertex.value);
                 break;
             }
             head = head.next;
@@ -112,8 +112,7 @@ public class Graph {
         }
         resetVisitedVertex();
         queue.clear();
-
-    }
+    }           // client -> shop
 
     public void dijkstra(String clientAddress, String shopAddress) {            // shop -> client
         NodeTree vertexClient = vertexList.getNodeByValue(clientAddress);       // вершина клієнта за адресою
@@ -143,8 +142,12 @@ public class Graph {
                 }
             }
         }
-        System.out.printf("Min distance from Id: %d Shop: %s\tto\tId: %d Client: %s ----> %d minute\n",
-                shopId, vertexShop.key, clientId, vertexClient.key, distance[clientId]);
+        System.out.print("From: \t");   displayVertex(shopId);
+        System.out.print("To: \t");     displayVertex(clientId);
+        System.out.printf("Мінімальний час: %d minutes\n\n", distance[clientId]);
+
+//        System.out.printf("From:\tId: %d\tShop:\t%5s\tAddress: %s\nTo:\t\tId: %d\tClient:\t%5s\tAddress: %s:\nМінімальний час: %d minutes\n",
+//                shopId, vertexShop.key, shopAddress, clientId, vertexClient.key, clientAddress, distance[clientId]);
     }
 
     public int findMinVertex(int[] distance, boolean[] visited) {
