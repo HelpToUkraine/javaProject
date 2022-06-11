@@ -6,46 +6,24 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        BinaryTree shopMap = new BinaryTree();
-        BinaryTree clientMap = new BinaryTree();
+        BinaryTree shopMap = new BinaryTree();                              // Tree: <Shop, ShopAddress>
+        BinaryTree clientMap = new BinaryTree();                            // Tree: <Client, ClientAddress>
         QueueList deliveryQueue = new QueueList();                          // Черга клієнтів
         InputData inputData = new InputData();                              // зчитування даних з файлів
 
-        /* create graph after read data in Files */
+        /* create graph after read inputData in Files */
         Graph graph = inputData.readFiles(shopMap, clientMap, deliveryQueue);
-        Scanner input = new Scanner(System.in);
 
-        /*
-        Output info Tree, Graph, Queue
-         */
-
-//        System.out.println("Shop -> address\n");
-//        shopMap.print();
-//
-//        System.out.println("\nClient -> address\n");
-//        clientMap.print();
-//
-//        System.out.println("\nQueue client's to delivery\n");
-//        deliveryQueue.printQueue();
-//
-//        System.out.println("Adjacency Matrix");
-//        graph.printMatrix();
-
-
-        /* заповнення списка вершин графа з Binary Tree */
+        /* заповнення списка вершин Graph з Binary Tree (clientMap, shopMap) */
         clientMap.traverseInOrder(graph);
         shopMap.traverseInOrder(graph);
 
-//
-//        System.out.println("Вершини графа: ");
-//        graph.vertexList.print();
+        /* The main cycle of the program. */
+        start(graph, shopMap, clientMap, deliveryQueue);
+    }
 
-
-//        System.out.println("Інформація про вершину: ");
-//        graph.displayVertex(13);
-//        graph.displayVertex(1);
-
-        /* Зчитує чергу замволень клієнтів. Після кожної ітерації видаляється клієнт з замовлення */
+    public static void start(Graph graph, BinaryTree shopMap, BinaryTree clientMap, QueueList deliveryQueue) {
+        Scanner input = new Scanner(System.in);
         while (true) {
             System.out.print("""   
                              
@@ -60,12 +38,31 @@ public class Main {
                     """);
             String var = input.nextLine();
             switch (var) {
-                case "1" -> nextDelivery(graph, shopMap, clientMap, deliveryQueue);
-                case "2" -> deliveryQueue.print();
-                case "3" -> graph.vertexList.print();
-                case "4" -> shopMap.print();
-                case "5" -> clientMap.print();
-                case "6" -> graph.printMatrix();
+                case "1" -> {
+                    /* After successfully delivery -> remove Client from deliveryQueue */
+                    System.out.println("\nОбробка наступного замовлення:");
+                    nextDelivery(graph, shopMap, clientMap, deliveryQueue);
+                }
+                case "2" -> {
+                    System.out.println("\nЧерга клієнтів на доставку:");
+                    deliveryQueue.print();
+                }
+                case "3" -> {
+                    System.out.println("\nВершини Graph:");
+                    graph.vertexList.print();
+                }
+                case "4" -> {
+                    System.out.println("\nBinaryTree<Shops> sorted by 'Key'");
+                    shopMap.print();
+                }
+                case "5" -> {
+                    System.out.println("\nBinaryTree<Clients> sorted by 'Key'");
+                    clientMap.print();
+                }
+                case "6" -> {
+                    System.out.println("\nМатриця суміжності Graph:");
+                    graph.printMatrix();
+                }
                 case "7" -> {
                     System.out.print("Введіть номер(id) вершини для видалення: ");
                     String delVertex = input.nextLine();
@@ -78,36 +75,25 @@ public class Main {
             }
         }
 
-        /*
-        test get value by key
-        */
 
-//        System.out.println("\n\nTest: find value by key:");
-//        System.out.println("Key: Atb -> : " + shopMap.getValue("Atb"));
-//        System.out.println("Key: Comfy -> " + shopMap.getValueRecursive("Comfy"));
-//        System.out.println("Key: Abram -> " + clientMap.getValue("Abram"));
-//        System.out.println("Key: Max -> " + clientMap.getValueRecursive("Max"));
     }
 
     public static void nextDelivery(Graph graph, BinaryTree shopMap, BinaryTree clientMap, QueueList deliveryQueue) {
-        if (deliveryQueue.getHead() != null) {                                   // "Max -> Apple"
+        if (deliveryQueue.getHead() != null) {                                   // поки є клієнти в черзі замовлень
             QueueList.Node order = deliveryQueue.remove();                       // дістається клієнт і видаляється
             String clientAddress = clientMap.getValue((String) order.key);
             String shopAddress = shopMap.getValue((String) order.value);
 
-//            System.out.printf("DFS:\nClient: %s -> Shop: %s\nClientAddress: %s -> ShopAddress: %s\n\n",
-//                    head.key, head.value, clientAddress, shopAddress);
-
-            System.out.printf("\nClient: '%s'\taddress: %s\nShop: '%s'\taddress: %s\n",
+            System.out.printf("Client: '%s'\t\tAddress: %s\nShop: '%s'\t\tAddress: %s\n",
                     order.key, clientAddress, order.value, shopAddress);
 
-            System.out.println("\nDFS: --------------------------------");
+            System.out.println("\nDFS(пошук у глибину):");
             graph.dfs(clientAddress, shopAddress);
 
-            System.out.println("\nBFS: --------------------------------");
+            System.out.println("\nBFS(пошук у ширину):");
             graph.bfs(clientAddress, shopAddress);
 
-            System.out.println("\nDijkstra: --------------------------------");
+            System.out.println("\nDijkstra:");
             graph.dijkstra(clientAddress, shopAddress);
 
             /*
