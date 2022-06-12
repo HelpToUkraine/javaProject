@@ -1,9 +1,9 @@
 package MyLibrary;
 
-public class BinaryTree<K, V> {
+public class JenericBinaryTree<K, V> {
     private Node<K, V> root;
 
-    public BinaryTree() {
+    public JenericBinaryTree() {
         root = null;
     }
 
