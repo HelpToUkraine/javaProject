@@ -1,6 +1,3 @@
-/*
-update add tail save in list
-*/
 package MyLibrary;
 
 public class LinkedList {
@@ -41,17 +38,10 @@ public class LinkedList {
 
     public void add(Object data){
         Node newNode = new Node(data);
-        //Node currentNode = head;
-
         if (head == null)
             head = tail = newNode;
         else
             tail.next = tail = newNode;
-//            {
-//                 while (currentNode.next != null)
-//                     currentNode = currentNode.next;
-//                 currentNode.next = tail = newNode;
-//            }
         size++;
     }
 
@@ -156,7 +146,6 @@ public class LinkedList {
             }
         }
         return -1;
-
     }
 
 }
