@@ -1,24 +1,21 @@
 package Course_work;
 
-import Course_work.LinkedList.Node;
 import Course_work.BinaryTree.NodeTree;
 import MyLibrary.Stack;
 import MyLibrary.QueueList;
-
 import MyLibrary.JenericLinkedList;
 
 public class Graph {
-    public int[][] adjMatrix;       // матрица смежности
-    public int currentVertex;       // текущее количество вершин
-    int countOfVertexInTree;        // количество рассмотренных вершин в дереве
-    LinkedList vertexList;          // массив вершин
+    public int[][] adjMatrix;                   // матриця суміжності
+    public int currentVertex;                   // кількість вершин вершин
+    LinkedList<NodeTree> vertexList;            // список вершин
     Stack stack;
     QueueList queue;
 
     public Graph(int maxVertex) {
-        vertexList = new LinkedList();
+        vertexList = new LinkedList<>();
         adjMatrix = new int[maxVertex][maxVertex];
-        stack = new Stack(maxVertex*2);
+        stack = new Stack(maxVertex);
         queue = new QueueList();
         currentVertex = 0;
     }
@@ -41,113 +38,118 @@ public class Graph {
     }
 
     public void displayVertex(int vertex) {
-        Node head = vertexList.getHead();
-        while (head != null) {
-            if (head.vertex.id == vertex) {
-                System.out.printf("Id: %d\tKey: %10s\t\tValue: %s\n", head.vertex.id, head.vertex.key, head.vertex.value);
-                break;
-            }
-            head = head.next;
-        }
+        NodeTree find = getNodeById(vertex);
+        if (find != null)
+            System.out.printf("Id: %d\tKey: %10s\t\tValue: %s\n", find.id, find.key, find.value);
     }
 
+    /* в список записувати вершини. якщо остання вершини == магазину. то виводимо*/
     public void dfs(String clientAddress, String shopAddress) {             // обход в глубину
-        NodeTree vertexClient = vertexList.getNodeByValue(clientAddress);   //  вершина клиента по адресу
-        NodeTree vertexShop = vertexList.getNodeByValue(shopAddress);       //  вершина магазина по адресу
-        /*
-        if  vertexClient and vertexShop != null  добавить проверку.
-         */
-        int clientId = vertexClient.id;
-        int shopId = vertexShop.id;
+        NodeTree vertexClient = getNodeByValue(clientAddress);   //  вершина клиента по адресу
+        NodeTree vertexShop = getNodeByValue(shopAddress);       //  вершина магазина по адресу
+        JenericLinkedList<Integer> list = new JenericLinkedList<>();
 
-        vertexClient.isVisited = true;
-        displayVertex(clientId);
-        stack.push(clientId);
+        if (vertexClient != null && vertexShop != null) {
+            int clientId = vertexClient.id;
+            int shopId = vertexShop.id;
 
-        while (!stack.isEmpty()) {
-            int v = getUnvisitedVertex((Integer) stack.peek());          // вынуть индекс смежной веришины, еcли есть 1, нет -1
-            if (v == -1) {                                                  // если не пройденных смежных вершин нет
-                stack.pop();                                                // элемент извлекается из стека
-            }
-            else if (v == shopId) {                                      // STOP BFS if you find path Client -> Shop
-                displayVertex(v);
-                break;
-            }
-            else {
-                NodeTree vertex = vertexList.getNodeById(v);
-                vertex.isVisited = true;
-                displayVertex(v);
-                stack.push(v);                                              // элемент попадает на вершину стека
-            }
-        }
-        stack.clear();
-        resetVisitedVertex();
-    }           // client -> shop
+            vertexClient.isVisited = true;
+            list.add(clientId);
+            stack.push(clientId);
 
-    public void bfs(String clientAddress, String shopAddress) {               // client -> shop
-         /*
-        if  vertexClient and vertexShop != null  добавить проверку.
-         */
-        NodeTree vertexClient = vertexList.getNodeByValue(clientAddress);
-        NodeTree vertexShop = vertexList.getNodeByValue(shopAddress);
-        vertexClient.isVisited = true;                                      // берётся вершина клиента
-        int clientId = vertexClient.id;
-        int shopId = vertexShop.id;
-
-        displayVertex(clientId);
-        queue.add(clientId);
-        int unvisitedId = -1;
-
-        while (!queue.isEmpty()) {
-            if (shopId == unvisitedId)       break;
-            int vertexId = (Integer) queue.poll();
-
-            while ((unvisitedId = getUnvisitedVertex(vertexId)) != -1) {
-                NodeTree vertex = vertexList.getNodeById(unvisitedId);
-                vertex.isVisited = true;
-                displayVertex(unvisitedId);
-                if (unvisitedId == shopId)  break;
-                queue.add(unvisitedId);
-            }
-        }
-        resetVisitedVertex();
-        queue.clear();
-    }           // client -> shop
-
-    public void dijkstra(String clientAddress, String shopAddress) {            // shop -> client
-        NodeTree vertexClient = vertexList.getNodeByValue(clientAddress);       // вершина клієнта за адресою
-        NodeTree vertexShop = vertexList.getNodeByValue(shopAddress);           // вершина магазина за адресою
-        int clientId = vertexClient.id;
-        int shopId = vertexShop.id;
-
-        int v = adjMatrix.length;
-        boolean[] visited = new boolean[v];
-        int[] distance = new int[v];
-        distance[shopId] = 0;                           // відстань від shop to shop = 0
-
-        for (int i = 0; i < v; i++)                     // заповнення відстані від shopId -> vertex = INFINITY
-            if (i != shopId)
-                distance[i] = Integer.MAX_VALUE;
-
-        for (int i = 0; i < v - 1; i++) {
-            // Знайти вершину з Min Distance
-            int minVertex = findMinVertex(distance, visited);
-            visited[minVertex] = true;
-            // досліджуємо сусідів
-            for (int j = 0; j < v; j++) {
-                if (adjMatrix[minVertex][j] != 0 && !visited[j] && distance[minVertex] != Integer.MAX_VALUE) {
-                    int newDist = distance[minVertex] + adjMatrix[minVertex][j];
-                    if (newDist < distance[j])
-                        distance[j] = newDist;
+            while (!stack.isEmpty()) {
+                int v = getUnvisitedVertex((Integer) stack.peek());     // getIndex не посещенной смежной веришины
+                if (v == -1) {                                          // если не пройденных смежной вершины нет
+                    stack.pop();                                        // элемент извлекается из стека
+                }
+                else if (v == shopId) {                                 // STOP BFS if you find path <Client -> Shop>
+                    list.add(v);
+                    break;
+                }
+                else {
+                    NodeTree vertex = getNodeById(v);
+                    vertex.isVisited = true;
+                    list.add(v);
+                    stack.push(v);                                      // элемент попадает на вершину стека
                 }
             }
-        }
-        System.out.print("From: \t");   displayVertex(shopId);
-        System.out.print("To: \t");     displayVertex(clientId);
-        System.out.printf("Мінімальний час: %d minutes\n\n", distance[clientId]);
+            outputPath(list, shopId);
+            stack.clear();
+            resetVisitedVertex();
+        } else System.out.println("Шляху не має");
+    }
 
-//        System.out.printf("From:\tId: %d\tShop:\t%5s\tAddress: %s\nTo:\t\tId: %d\tClient:\t%5s\tAddress: %s:\nМінімальний час: %d minutes\n",
-//                shopId, vertexShop.key, shopAddress, clientId, vertexClient.key, clientAddress, distance[clientId]);
+    public void bfs(String clientAddress, String shopAddress) {               // client -> shop
+        NodeTree vertexClient = getNodeByValue(clientAddress);
+        NodeTree vertexShop = getNodeByValue(shopAddress);
+        JenericLinkedList<Integer> list = new JenericLinkedList<>();
+
+        if (vertexClient != null && vertexShop != null) {
+            vertexClient.isVisited = true;                                      // берётся вершина клиента
+            int clientId = vertexClient.id;
+            int shopId = vertexShop.id;
+
+            //displayVertex(clientId);
+            list.add(clientId);
+            queue.add(clientId);
+            int unvisitedId = -1;
+
+            while (!queue.isEmpty()) {
+                if (shopId == unvisitedId)       break;
+                int vertexId = (Integer) queue.poll();
+
+                while ((unvisitedId = getUnvisitedVertex(vertexId)) != -1) {
+                    NodeTree vertex = getNodeById(unvisitedId);
+                    vertex.isVisited = true;
+                    //displayVertex(unvisitedId);
+                    list.add(unvisitedId);
+                    if (unvisitedId == shopId)  break;
+                    queue.add(unvisitedId);
+                }
+            }
+            outputPath(list, shopId);
+            resetVisitedVertex();
+            queue.clear();
+        } else System.out.println("Шляху не має");
+    }
+
+    public void dijkstra(String clientAddress, String shopAddress) {            // shop -> client
+        NodeTree vertexClient = getNodeByValue(clientAddress);       // вершина клієнта за адресою
+        NodeTree vertexShop = getNodeByValue(shopAddress);           // вершина магазина за адресою
+
+        if (vertexClient != null && vertexShop != null) {
+            int clientId = vertexClient.id;
+            int shopId = vertexShop.id;
+
+            int v = adjMatrix.length;
+            boolean[] visited = new boolean[v];
+            int[] distance = new int[v];
+            distance[shopId] = 0;                           // відстань від shop to shop = 0
+
+            for (int i = 0; i < v; i++)                     // заповнення відстані від shopId -> vertex = INFINITY
+                if (i != shopId)
+                    distance[i] = Integer.MAX_VALUE;
+
+            for (int i = 0; i < v - 1; i++) {
+                // Знайти вершину з Min Distance
+                int minVertex = findMinVertex(distance, visited);
+                visited[minVertex] = true;
+                // досліджуємо сусідів
+                for (int j = 0; j < v; j++) {
+                    if (adjMatrix[minVertex][j] != 0 && !visited[j] && distance[minVertex] != Integer.MAX_VALUE) {
+                        int newDist = distance[minVertex] + adjMatrix[minVertex][j];
+                        if (newDist < distance[j])
+                            distance[j] = newDist;
+                    }
+                }
+            }
+            if (distance[clientId] != Integer.MAX_VALUE) {
+                System.out.print("From: \t");   displayVertex(shopId);
+                System.out.print("To: \t");     displayVertex(clientId);
+                System.out.printf("Мінімальний час проходження: %d хв.\n\n", distance[clientId]);
+            } else System.out.println("Шляху не має\n");
+
+        } else System.out.println("Шляху не має");
     }
 
     public int findMinVertex(int[] distance, boolean[] visited) {
@@ -161,15 +163,8 @@ public class Graph {
 
     public int getUnvisitedVertex(int v) {
         for (int j = 0; j < currentVertex; j++) {
-            Node head = vertexList.getHead();
-            NodeTree vertex = null;
-            while (head != null) {
-                vertex = head.vertex;
-                if (vertex.id == j)
-                    break;
-                head = head.next;
-            }
-            if (adjMatrix[v][j] != 0 && (vertex != null && !vertex.isVisited) ) {
+            NodeTree findVertex = getNodeById(j);
+            if (adjMatrix[v][j] != 0 && (findVertex != null && !findVertex.isVisited) ) {
                 return j; //возвращает первую найденную вершину
             }
         }
@@ -177,37 +172,61 @@ public class Graph {
     }
 
     public void resetVisitedVertex() {                       // сброс флагов посещенных вершин
-        Node head = vertexList.getHead();
-        while (head != null) {
-            head.vertex.isVisited = false;
-            head = head.next;
+        for (int i = 0; i < vertexList.size(); i++) {
+            getNodeById(i).isVisited = false;
         }
     }
 
-    public void removeVertex(int vertexId) {
-        /*
-        перевірка vertexList.getNodeById(vertexId) != null
-         */
-        vertexList.remove(vertexList.getNodeById(vertexId));                         // видаляє вершину зі списка вершин
-        for (int i = 0; i < adjMatrix.length; i++)
-            for (int j = 0; j < adjMatrix[0].length; j++)
-                if ((i == vertexId || j == vertexId) && adjMatrix[i][j] != 0)       // якщо з вершини чи до вершини є шлях, скидаємо в 0.
-                    adjMatrix[i][j] = 0;
+    public boolean removeVertex(int vertexId) {
+        NodeTree deleteNode = getNodeById(vertexId);
+        if (deleteNode != null) {
+            vertexList.remove(deleteNode);                                          // видаляє вершину зі списка вершин
+            for (int i = 0; i < adjMatrix.length; i++)
+                for (int j = 0; j < adjMatrix[0].length; j++)
+                    if ((i == vertexId || j == vertexId) && adjMatrix[i][j] != 0)   // -> to Vertex or from Vertex -> = 0
+                        adjMatrix[i][j] = 0;
+            return true;
+        }
+        return false;
     }
 
+    public void outputPath(JenericLinkedList<Integer> list, int shopId) {
+        if (list.getTail().data == shopId) {
+            JenericLinkedList.Node<Integer> currentNode = list.getHead();
+            while (currentNode != null) {
+                displayVertex(currentNode.data);
+                currentNode = currentNode.next;
+            }
+        } else System.out.println("Шляху не має");
+    }
 
+    public NodeTree getNodeByValue(Object value) {
+        LinkedList<NodeTree>.Node currentNode = vertexList.getHead();
+        while (currentNode != null) {
+            if (currentNode.vertex.value.equals(value))       return currentNode.vertex;
+            currentNode = currentNode.next;
+        }
+        return null;
+    }
 
-//    public static class Vertex {            // адреса
-//        public String label;
-//        public int id;
-//        public boolean isVisited;
-//
-//        public Vertex(String label, int id) {
-//            this.label = label;
-//            this.id = id;
-//            isVisited = false;
-//        }
-//    }
+    public NodeTree getNodeById(int id) {
+        LinkedList<NodeTree>.Node currentNode = vertexList.getHead();
+        while (currentNode != null) {
+            if (currentNode.vertex.id == id)       return currentNode.vertex;
+            currentNode = currentNode.next;
+        }
+        return null;
+    }
+
+    public void printVertex() {               // to graph class
+        LinkedList<NodeTree>.Node currentNode = vertexList.getHead();
+        while (currentNode != null) {
+            System.out.printf("Id: %d\tKey: %10s\t\tValue: %s\n", currentNode.vertex.id, currentNode.vertex.key, currentNode.vertex.value);
+            currentNode = currentNode.next;
+        }
+        System.out.println();
+
+    }
 
 }
 
