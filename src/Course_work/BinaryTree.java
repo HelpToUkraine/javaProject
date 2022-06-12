@@ -75,7 +75,7 @@ public class BinaryTree {
                 : getValueRecursive(current.rightChild, key);
     }
 
-    /* Обхід всіх вершин BinaryTree і створення вершин Graph. */
+    /* Обхід всіх вершин JenericBinaryTree і створення вершин Graph. */
     public void traverseInOrder(Graph graph) {
         traverseInOrder(graph, root);
     }
