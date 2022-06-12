@@ -8,6 +8,7 @@ import MyLibrary.JenericLinkedList;
 public class Graph {
     public int[][] adjMatrix;                   // матриця суміжності
     public int currentVertex;                   // кількість вершин вершин
+    public int maxVertex;                       // кількість вершин вершин
     LinkedList<NodeTree> vertexList;            // список вершин
     Stack stack;
     QueueList queue;
@@ -17,6 +18,7 @@ public class Graph {
         adjMatrix = new int[maxVertex][maxVertex];
         stack = new Stack(maxVertex);
         queue = new QueueList();
+        this.maxVertex = maxVertex;
         currentVertex = 0;
     }
 
@@ -172,8 +174,10 @@ public class Graph {
     }
 
     public void resetVisitedVertex() {                       // сброс флагов посещенных вершин
-        for (int i = 0; i < vertexList.size(); i++) {
-            getNodeById(i).isVisited = false;
+        LinkedList<NodeTree>.Node head = vertexList.getHead();
+        while (head != null) {
+            head.vertex.isVisited = false;
+            head = head.next;
         }
     }
 
@@ -185,6 +189,7 @@ public class Graph {
                 for (int j = 0; j < adjMatrix[0].length; j++)
                     if ((i == vertexId || j == vertexId) && adjMatrix[i][j] != 0)   // -> to Vertex or from Vertex -> = 0
                         adjMatrix[i][j] = 0;
+            currentVertex--;
             return true;
         }
         return false;
@@ -220,13 +225,13 @@ public class Graph {
 
     public void printVertex() {               // to graph class
         LinkedList<NodeTree>.Node currentNode = vertexList.getHead();
-        while (currentNode != null) {
-            System.out.printf("Id: %d\tKey: %10s\t\tValue: %s\n", currentNode.vertex.id, currentNode.vertex.key, currentNode.vertex.value);
-            currentNode = currentNode.next;
+        for (int i = 0; i < maxVertex; i++) {
+            NodeTree temp = getNodeById(i);
+            if (temp != null)
+                displayVertex(temp.id);
         }
         System.out.println();
 
     }
 
 }
-
