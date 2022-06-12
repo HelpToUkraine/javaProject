@@ -86,7 +86,6 @@ public class QueueList {
         return temp.value;
     }
 
-
     public void removeIndexOf(int index) {
         if (index < 0 || index >= size) {
             System.err.println("Error: Out of range Queue");
@@ -130,7 +129,7 @@ public class QueueList {
         if (!isEmpty()) {
             Node currentNode = head;
             while (currentNode != null) {
-                System.out.println(currentNode.key + " -> " + currentNode.value);
+                System.out.printf("Key: %5s\t->\tValue: %s\n", currentNode.key, currentNode.value);
                 currentNode = currentNode.next;
             }
             System.out.println();
