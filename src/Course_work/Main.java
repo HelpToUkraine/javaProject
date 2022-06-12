@@ -26,14 +26,14 @@ public class Main {
 
         while (true) {
             System.out.print(Blue + """   
-                             
-                    <1>         Обробити доставку наступного клієнта:
-                    <2>         Черга доставки:
-                    <3>         Вершини графа:
-                    <4>         Таблиця Shops:
-                    <5>         Таблиця Clients:
-                    <6>         Матриця суміжності:
-                    <Another>   Закрити програму:
+                    
+                    Доставка наступного клієнта:    <1>
+                    Черга доставки:                 <2>
+                    Вершини графа:                  <3>
+                    Таблиця Shops:                  <4>
+                    Таблиця Clients:                <5>
+                    Матриця суміжності:             <6>
+                    Закрити програму:            <Another>
                     """ + Reset);
 
             String var = input.nextLine();
@@ -90,9 +90,9 @@ public class Main {
                     String[] delVertex = input.nextLine().split(" ");
                     for (String vertex : delVertex) {
                         try {
-                            System.out.printf("%b\t<-\tDeleted vertex: %s\n", graph.removeVertex(Integer.parseInt(vertex)), vertex);
+                            System.out.printf("%b\t<-\tDeleted vertexId: %s\n", graph.removeVertex(Integer.parseInt(vertex)), vertex);
                         } catch (Exception ignored) {
-                            System.out.printf("false\t<-\tDeleted vertex: %s\n", vertex);
+                            System.out.printf("false\t<-\tDeleted vertexId: %s\n", vertex);
                         }
                     }
 
