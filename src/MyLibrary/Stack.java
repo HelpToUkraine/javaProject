@@ -58,7 +58,8 @@ public class Stack {
     }
 
     public void clear() {
-        top = -1;
+        while (!isEmpty())
+            arr[top--] = 0;
     }
 
 }
