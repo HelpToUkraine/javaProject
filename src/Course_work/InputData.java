@@ -11,7 +11,6 @@ public class InputData {
     File delivery = new File("D:\\Code\\javaProject\\src\\Course_work\\Config files\\Delivery.txt");
     File adjMatrix = new File("D:\\Code\\javaProject\\src\\Course_work\\Config files\\Graph.txt");
 
-
     public Graph readFiles(BinaryTree shopMap, BinaryTree clientMap, QueueList deliveryQueue) throws FileNotFoundException {
         int id = 0;      /* id Vertex client and shop */
 
