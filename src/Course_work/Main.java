@@ -26,7 +26,7 @@ public class Main {
 
         while (true) {
             System.out.print(Blue + """   
-                    
+                                        
                     Доставка наступного клієнта:    <1>
                     Черга доставки:                 <2>
                     Вершини графа:                  <3>
