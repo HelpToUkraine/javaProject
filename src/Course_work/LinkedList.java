@@ -1,7 +1,5 @@
 package Course_work;
 
-import Course_work.BinaryTree.NodeTree;
-
 public class LinkedList<T> {
     private Node head;
     private Node tail;
@@ -14,6 +12,10 @@ public class LinkedList<T> {
 
     public Node getHead() {
         return head;
+    }
+
+    public Node getTail() {
+        return tail;
     }
 
     public class Node {
@@ -35,7 +37,7 @@ public class LinkedList<T> {
         size++;
     }
 
-    public void remove(NodeTree vertex) {
+    public void remove(T vertex) {
         Node currentNode = head;
         Node previous = null;
 
@@ -86,6 +88,14 @@ public class LinkedList<T> {
             }
         }
         return -1;
+    }
+
+    public void print() {
+        Node current = head;
+        while (current != null) {
+            System.out.println(current.vertex);
+            current = current.next;
+        }
     }
 
 }
