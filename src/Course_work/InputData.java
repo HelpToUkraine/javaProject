@@ -43,7 +43,7 @@ public class InputData {
             int[] numbers = new int[strings.length];
             for (int i = 0; i < numbers.length; i++)
                 numbers[i] = Integer.parseInt(strings[i]);
-            graph.addEdge(numbers[0], numbers[1], numbers[2]);              // start -> end -> weight
+            graph.addEdge(numbers[0], numbers[1], numbers[2]);   // start -> end -> weight
         }
         return graph;
     }
