@@ -1,4 +1,4 @@
-package MyLibrary;
+package DataStructure;
 
 import static java.util.Objects.checkIndex;
 
@@ -43,9 +43,9 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public void set(int index, T element) {
-       checkIndex(index, size);
-       array[index] = element;
-        
+        checkIndex(index, size);
+        array[index] = element;
+
     }
 
     @Override

@@ -1,4 +1,4 @@
-package MyLibrary;
+package DataStructure;
 
 public class QueueArray {
     private final Object[] queue;
@@ -29,13 +29,12 @@ public class QueueArray {
     }
 
     public void removeIndexOf(int index) {
-        if (index >=0 && index <= top) {
+        if (index >= 0 && index <= top) {
             Object temp = queue[index];
             for (int i = index + 1; i <= top; i++)
-                queue[i-1] = queue[i];
+                queue[i - 1] = queue[i];
             queue[top] = temp;
-        }
-        else {
+        } else {
             System.err.println("Error: Out of range Queue");
             System.exit(0);
         }
@@ -45,7 +44,7 @@ public class QueueArray {
     public Object get(int index) {
         Object temp = null;
         if (0 <= index && index <= top)
-            for (int i = 0; i <= top ; i++) {
+            for (int i = 0; i <= top; i++) {
                 if (i == index)
                     temp = peek();
                 remove();

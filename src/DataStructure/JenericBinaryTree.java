@@ -1,4 +1,4 @@
-package MyLibrary;
+package DataStructure;
 
 public class JenericBinaryTree<K, V> {
     private Node<K, V> root;
@@ -30,8 +30,8 @@ public class JenericBinaryTree<K, V> {
         if (current == null)
             return new Node<>(key, value);
         /* порівнюємо за алфавітом String value та шукаємо місце вставки нової Node<K> */
-        String keyStr = (String)key;
-        int cmp = keyStr.compareToIgnoreCase((String)current.key);
+        String keyStr = (String) key;
+        int cmp = keyStr.compareToIgnoreCase((String) current.key);
         if (cmp < 0)
             current.leftChild = put(current.leftChild, key, value);
         else if (cmp > 0)
@@ -44,11 +44,11 @@ public class JenericBinaryTree<K, V> {
     public V getValue(K key) {
         Node<K, V> temp = root;
         while (temp != null) {
-            String keyStr = (String)key;
-            int cmp = keyStr.compareToIgnoreCase((String)temp.key);
-            if (cmp < 0)        temp = temp.leftChild;
-            else if (cmp > 0)   temp = temp.rightChild;
-            else                return temp.value;
+            String keyStr = (String) key;
+            int cmp = keyStr.compareToIgnoreCase((String) temp.key);
+            if (cmp < 0) temp = temp.leftChild;
+            else if (cmp > 0) temp = temp.rightChild;
+            else return temp.value;
         }
         return null;
     }
@@ -61,8 +61,8 @@ public class JenericBinaryTree<K, V> {
     public V getValueRecursive(Node<K, V> current, K key) {
         if (current == null)
             return null;
-        String keyStr = (String)key;
-        int cmp = keyStr.compareToIgnoreCase((String)current.key);
+        String keyStr = (String) key;
+        int cmp = keyStr.compareToIgnoreCase((String) current.key);
         if (cmp == 0)
             return current.value;
 

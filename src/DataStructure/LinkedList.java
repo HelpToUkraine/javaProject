@@ -1,4 +1,4 @@
-package MyLibrary;
+package DataStructure;
 
 public class LinkedList {
     private Node head;
@@ -36,7 +36,7 @@ public class LinkedList {
         }
     }
 
-    public void add(Object data){
+    public void add(Object data) {
         Node newNode = new Node(data);
         if (head == null)
             head = tail = newNode;
@@ -45,7 +45,7 @@ public class LinkedList {
         size++;
     }
 
-    public void addFirst(Object data){
+    public void addFirst(Object data) {
         Node newNode = new Node(data);
         if (head == null)
             tail = newNode;
@@ -68,7 +68,7 @@ public class LinkedList {
     }
 
     public void removeFirst() {
-        if (head != null){
+        if (head != null) {
             head = head.next;
             size--;
         }
@@ -79,7 +79,7 @@ public class LinkedList {
         Node previous = null;
 
         while (currentNode != null) {
-            if (currentNode.data == data){
+            if (currentNode.data == data) {
                 if (currentNode == head)
                     head = currentNode.next;
                 else
@@ -116,10 +116,10 @@ public class LinkedList {
         size = 0;
     }
 
-    public boolean contains(Object key){
+    public boolean contains(Object key) {
         Node currentNode = head;
         while (currentNode != null) {
-            if (currentNode.data == key)   return true;
+            if (currentNode.data == key) return true;
             currentNode = currentNode.next;
         }
         return false;
@@ -128,19 +128,19 @@ public class LinkedList {
     public Node getNode(Object data) {
         Node currentNode = head;
         while (currentNode != null) {
-            if (currentNode.data == data)       return currentNode;
+            if (currentNode.data == data) return currentNode;
             currentNode = currentNode.next;
         }
         return null;
     }
 
     public Object get(int index) {
-        if (0 <= index && index <= size-1) {
+        if (0 <= index && index <= size - 1) {
             Node currentNode = head;
-            int i=0;
-            while (currentNode != null){
+            int i = 0;
+            while (currentNode != null) {
                 if (i == index)
-                    return  currentNode.data;
+                    return currentNode.data;
                 currentNode = currentNode.next;
                 i++;
             }

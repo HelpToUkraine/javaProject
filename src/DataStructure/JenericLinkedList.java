@@ -1,4 +1,4 @@
-package MyLibrary;
+package DataStructure;
 
 public class JenericLinkedList<T> {
     private Node<T> head;
@@ -35,6 +35,7 @@ public class JenericLinkedList<T> {
             this.data = data;
             next = null;
         }
+
         public Node(T data, int id) {
             this.data = data;
             this.id = id;
@@ -42,7 +43,7 @@ public class JenericLinkedList<T> {
         }
     }
 
-    public void add(T data){
+    public void add(T data) {
         Node<T> newNode = new Node<>(data);
         //Node currentNode = head;
         if (head == null)
@@ -52,7 +53,7 @@ public class JenericLinkedList<T> {
         size++;
     }
 
-    public void addFirst(T data){
+    public void addFirst(T data) {
         Node<T> newNode = new Node<>(data);
         if (head == null)
             tail = newNode;
@@ -75,7 +76,7 @@ public class JenericLinkedList<T> {
     }
 
     public void removeFirst() {
-        if (head != null){
+        if (head != null) {
             head = head.next;
             size--;
         }
@@ -86,7 +87,7 @@ public class JenericLinkedList<T> {
         Node<T> previous = null;
 
         while (currentNode != null) {
-            if (currentNode.data == data){
+            if (currentNode.data == data) {
                 if (currentNode == head)
                     head = currentNode.next;
                 else
@@ -126,7 +127,7 @@ public class JenericLinkedList<T> {
     public boolean contains(Object key) {
         Node<T> currentNode = head;
         while (currentNode != null) {
-            if (currentNode.data == key)   return true;
+            if (currentNode.data == key) return true;
             currentNode = currentNode.next;
         }
         return false;
@@ -135,19 +136,19 @@ public class JenericLinkedList<T> {
     public Node<T> getNode(Object data) {
         Node<T> currentNode = head;
         while (currentNode != null) {
-            if (currentNode.data == data)       return currentNode;
+            if (currentNode.data == data) return currentNode;
             currentNode = currentNode.next;
         }
         return null;
     }
 
     public Object get(int index) {
-        if (0 <= index && index <= size-1) {
+        if (0 <= index && index <= size - 1) {
             Node<T> currentNode = head;
-            int i=0;
-            while (currentNode != null){
+            int i = 0;
+            while (currentNode != null) {
                 if (i == index)
-                    return  currentNode.data;
+                    return currentNode.data;
                 currentNode = currentNode.next;
                 i++;
             }

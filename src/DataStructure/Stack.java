@@ -1,4 +1,4 @@
-package MyLibrary;
+package DataStructure;
 
 public class Stack {
     private final Object[] arr; // save elements of stack
@@ -12,14 +12,14 @@ public class Stack {
     }
 
     public void push(Object data) {
-        if (isFull()){
+        if (isFull()) {
             System.out.println("Error: Stack overFlow");
             System.exit(0);
         }
         arr[++top] = data;
     }
 
-    public Object pop(){
+    public Object pop() {
         if (isEmpty()) {
             System.out.println("Error: Stack is Empty");
             System.exit(0);
@@ -28,7 +28,7 @@ public class Stack {
     }
 
     public boolean isFull() {
-        return  top == size - 1;
+        return top == size - 1;
     }
 
     public boolean isEmpty() {
@@ -43,7 +43,9 @@ public class Stack {
         return (!isEmpty() ? arr[top] : -1);
     }
 
-    public int getIndexTop() {return top;}
+    public int getIndexTop() {
+        return top;
+    }
 
     public void printStack() {
         int temp = top;
@@ -53,7 +55,7 @@ public class Stack {
 
     public Stack reverse() {
         Stack newStack = new Stack(size);
-        while (!isEmpty())  newStack.push(pop());
+        while (!isEmpty()) newStack.push(pop());
         return newStack;
     }
 

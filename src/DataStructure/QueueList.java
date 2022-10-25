@@ -1,4 +1,4 @@
-package MyLibrary;
+package DataStructure;
 
 public class QueueList {
     private Node head;
@@ -65,8 +65,7 @@ public class QueueList {
         if (isEmpty()) {
             System.err.println("Error: Queue is empty");
             System.exit(0);
-        }
-        else {
+        } else {
             head = head.next;
             size--;
         }
@@ -78,8 +77,7 @@ public class QueueList {
         if (isEmpty()) {
             System.err.println("Error: Queue is empty");
             System.exit(0);
-        }
-        else {
+        } else {
             head = head.next;
             size--;
         }
@@ -104,7 +102,7 @@ public class QueueList {
     public Object get(int index) {
         Object temp = null;
         if (0 <= index && index < size)
-            for (int i = 0; i < size ; i++) {
+            for (int i = 0; i < size; i++) {
                 if (i == index)
                     temp = peek();
                 add(remove());
@@ -133,7 +131,7 @@ public class QueueList {
                 currentNode = currentNode.next;
             }
             System.out.println();
-        }else System.out.println("null");
+        } else System.out.println("null");
     }
 
 }

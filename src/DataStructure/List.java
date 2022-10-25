@@ -1,4 +1,4 @@
-package MyLibrary;
+package DataStructure;
 
 public interface List<T> {
     void add(T element);
